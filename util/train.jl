@@ -30,8 +30,6 @@ end
 function cb_ps!(logging_ps, ps_trace, ps::Params, iter::Int, niters::Int,  verbose_freq::Int)
     if logging_ps
         if iter % verbose_freq === 0
-            # @info "training step $iter / $niters"
-            # println(ps)
             pp = [copy(p) for p in ps]
             push!(ps_trace,  pp)
             println(pp)
@@ -82,10 +80,6 @@ function vi_train!(niters::Int, loss, ps::Params, optimizer;
 
         # update progress bar
         ProgressMeter.next!(prog_bar)
-
-        # if iter % 100 === 1
-        #     println(ps)
-        # end
     end
 
     # return logging info

@@ -68,7 +68,6 @@ function MCMC_progress(ps, mcmc::Function, argparse::Function, argparse_args,
         Args = argparse(ps[i], argparse_args...)
         # taking samples for fixed setting
         el[i], D = MCMCsampler(mcmc, Args; n_samples)
-        # _, D_prime = MCMCsampler(mcmc, Args; n_samples)
         KSDs[i] = ksd_est(D, grd)
         KLs[i] = kl_est(D, kl_args...)
         err_ms[i], err_covs[i], err_logs[i] = rel_err(rel_args..., D)

@@ -44,7 +44,6 @@ function run_coreset_methods(id)
         ws_omp = build(Ms[i])
         inds_omp = [1:N ;][ws_omp .> 0]
         omp_post = z -> coreset_posterior(z, ws_omp)
-        # ∇omp_post = z -> a.∇potential_by_hand(a.xs[inds_omp,:], z, ones(length(inds_omp)) * N/length(inds_omp))
         ∇omp_post = z -> ForwardDiff.gradient(omp_post, z)
         @info "sampling from OMP coreset posterior using HMC"
         Random.seed!(id);
@@ -74,7 +73,6 @@ function run_coreset_methods(id)
 
     for i in 1:length(Ms)
         @info "training sparse flows"
-        # include("model.jl")
         a.inds = nothing
         a.sub_xs = nothing
         a.M = Ms[i]

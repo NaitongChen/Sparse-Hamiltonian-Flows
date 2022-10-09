@@ -40,7 +40,6 @@ function run_coreset_methods(id)
     for i in 1:length(Ms)
         @info "constructing OMP coreset"
         ws_omp = build(Ms[i])
-        # inds_omp = [1:N ;][build(Ms[i]) .> 0]
         omp_post = z -> coreset_posterior(z, ws_omp)
         ∇omp_post = z -> ForwardDiff.gradient(omp_post, z)
         @info "sampling from OMP coreset posterior using HMC"
@@ -60,7 +59,6 @@ function run_coreset_methods(id)
         unif_post = z -> coreset_posterior(z, ws_unif)
         ∇unif_post = z -> ForwardDiff.gradient(unif_post, z)
         @info "sampling from uniform coreset posterior using HMC"
-        # samples_unif = adapt_hmc(z0, accept_ratio, lf_n, unif_post, ∇unif_post, sample_size_for_metric_computation, 10*sample_size_for_metric_computation)
         samples_unif = advancedHMC(z0, accept_ratio, unif_post, ∇unif_post, sample_size_for_metric_computation, sample_size_for_metric_computation)
         @info "computing error metrics for uniform coreset HMC"
         KL_unif[i] = kl_gaussian(vec(mean(samples_unif, dims=1)), cov(samples_unif), post_mean, post_var)
@@ -71,7 +69,6 @@ function run_coreset_methods(id)
 
     for i in 1:length(Ms)
         @info "training sparse flows"
-        # include("model.jl")
         a.inds = nothing
         a.sub_xs = nothing
         a.M = Ms[i]

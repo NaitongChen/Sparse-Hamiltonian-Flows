@@ -10,7 +10,6 @@ function noob_timing(f::Function, args...; n_run = 1000)
         tick();
         call(f, args...)
         t = tok()
-        # println(t)
         time_log[count + 1] = t
         count += 1
         ProgressMeter.next!(prog_bar)

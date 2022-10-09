@@ -3,7 +3,6 @@ using LinearAlgebra, Distributions, Random, Plots, ForwardDiff, Logging, JLD, Ti
 include("../../inference/coreset/uniform.jl")
 include("../../inference/mcvae/hvi.jl")
 include("../../inference/mcvae/sampler.jl")
-# include("../../util/result.jl")
 include("../../util/relative_errors.jl")
 include("../../util/kl_gaussian.jl")
 include("../../util/ksd.jl")

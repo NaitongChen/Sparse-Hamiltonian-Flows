@@ -1,7 +1,5 @@
 using LinearAlgebra
 
-### just for timing: many hacky things inside
-
 function fflow_cond(z, p, K, sub_xs, lf_n)
     d = size(z, 1)
     ∇U = (zz, ww) -> ∇potential_by_hand(sub_xs, zz, ww)

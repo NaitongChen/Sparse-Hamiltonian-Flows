@@ -1,7 +1,6 @@
 using LinearAlgebra, Statistics, Optim, ForwardDiff
 
 function kl_gaussian(μq, Σq, μp, Σp)
-    # println(μq, Σq, μp, Σp)
     d = length(μq)
     if det(Σq) < 0
         return 0.5 * (logdet(Σp) - log(1e-20) - d + tr(Σp \ Σq) + transpose(μp - μq) * (Σp \ (μp - μq)))
@@ -54,16 +53,3 @@ function laplace(logp, x0)
     hess = ForwardDiff.hessian(obj, μ)
     return μ, hess
 end
-
-# using Zygote, ForwardDiff
-# # mix mode AD for quick computing  H_f * v
-# function _autoback_hesvec(f,x,v)
-#     g = x -> first(Zygote.gradient(f,x))
-#     ForwardDiff.partials.(g(ForwardDiff.Dual{Nothing}.(x, v)), 1)
-# end
-
-# x = rand(300)
-# # v = rand(300)
-# v = ones(300)
-# f(u) =sum(abs2,u)
-# _autoback_hesvec(f, x, v)
