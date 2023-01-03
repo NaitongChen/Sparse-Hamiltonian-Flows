@@ -4,7 +4,7 @@ include("../../util/ksd.jl")
 function est_final_elbo(zs, ps, D_z, D_p, log_det, a)
     elbo = 0.
     for i in 1:size(zs,1)
-        elbo += SparseFlowsT.single_elbo(a, zs[i,:], D_z[i,:], ps[i,:], D_p[i,:], log_det)
+        elbo += SparseHamiltonianFlows.single_elbo(a, zs[i,:], D_z[i,:], ps[i,:], D_p[i,:], log_det)
     end
     return elbo / size(zs,1)
 end
@@ -26,7 +26,7 @@ function compute_metric_at_iteration(post_mean, post_var, sample_size, a, w_unc,
 
     zs = a.sample_q0(sample_size)
     ps = randn(sample_size, a.d)
-    D_z, D_p, log_det = SparseFlowsT.sampler(a, sample_size, ϵ_unc, w_unc, r_states, copy(zs), copy(ps))
+    D_z, D_p, log_det = SparseHamiltonianFlows.sampler(a, sample_size, ϵ_unc, w_unc, r_states, copy(zs), copy(ps))
 
     # @info "estimating all metrics"
     KL = kl_gaussian(vec(mean(D_z, dims=1)), cov(D_z), post_mean, post_var)
@@ -91,7 +91,7 @@ function compute_KSD_at_iteration(sample_size, a, w_unc, ϵ_unc, μps, logσp, c
 
     zs = a.sample_q0(sample_size)
     ps = randn(sample_size, a.d)
-    D_z, D_p, log_det = SparseFlowsT.sampler(a, sample_size, ϵ_unc, w_unc, r_states, copy(zs), copy(ps))
+    D_z, D_p, log_det = SparseHamiltonianFlows.sampler(a, sample_size, ϵ_unc, w_unc, r_states, copy(zs), copy(ps))
 
     return imq_ksd(D_z, c, β, grd)
 end

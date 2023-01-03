@@ -26,8 +26,8 @@ function run_timing()
 
     @info "timing sample generation sparse flows"
     a.iter = 10
-    ϵ_unc_hist, w_unc_hist, _, _, _, _, r_states = SparseFlowsT.sparse_flows(a, ϵ_unc)
-    time_sample_sp = noob_timing(SparseFlowsT.sampler, a, 1, ϵ_unc_hist[a.iter,:], w_unc_hist[a.iter,:], r_states, Matrix(z0'), Matrix(ρ0'); n_run = sample_size_for_metric_computation)
+    ϵ_unc_hist, w_unc_hist, _, _, _, _, r_states = SparseHamiltonianFlows.sparse_flows(a, ϵ_unc)
+    time_sample_sp = noob_timing(SparseHamiltonianFlows.sampler, a, 1, ϵ_unc_hist[a.iter,:], w_unc_hist[a.iter,:], r_states, Matrix(z0'), Matrix(ρ0'); n_run = sample_size_for_metric_computation)
 
     @info "timing sample generation uha"
     time_sample_uha = noob_timing(uha_sample_single, sample_q0, ∇logγ, T_all(T0_uha), ϵ0uha, η0, number_of_refresh, d, K; n_run = sample_size_for_metric_computation)

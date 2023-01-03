@@ -16,7 +16,7 @@ function run_sp(id)
 
     @info "ID: $id"
     @info "training sparse flows"
-    ϵ_unc_hist, w_unc_hist, μps_hist, logσp_hist, ls_hist, time_hist, r_states = SparseFlowsT.sparse_flows(a, ϵ_unc);
+    ϵ_unc_hist, w_unc_hist, μps_hist, logσp_hist, ls_hist, time_hist, r_states = SparseHamiltonianFlows.sparse_flows(a, ϵ_unc);
 
     @info "computing metrics for conditional sp flow"
     grd = zz -> ∇potential_by_hand(xs, zz, ones(size(xs,1)))

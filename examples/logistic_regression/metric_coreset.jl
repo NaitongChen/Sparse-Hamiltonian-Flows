@@ -77,11 +77,11 @@ function run_coreset_methods(id)
         a.sub_xs = nothing
         a.M = Ms[i]
         Random.seed!(id);
-        ϵ_unc_hist, w_unc_hist, _, _, _, _, r_states = SparseFlowsT.sparse_flows(a, ϵ_unc);
+        ϵ_unc_hist, w_unc_hist, _, _, _, _, r_states = SparseHamiltonianFlows.sparse_flows(a, ϵ_unc);
         @info "sampling from trained flows"
         zs = a.sample_q0(sample_size_for_metric_computation)
         ps = randn(sample_size_for_metric_computation, a.d)
-        D_z, _, _ = SparseFlowsT.sampler(a, sample_size_for_metric_computation, ϵ_unc_hist[end,:], w_unc_hist[end,:], r_states, zs, ps)
+        D_z, _, _ = SparseHamiltonianFlows.sampler(a, sample_size_for_metric_computation, ϵ_unc_hist[end,:], w_unc_hist[end,:], r_states, zs, ps)
         @info "computing error metrics of sparse flows"
         KL_sp[i] = kl_gaussian(vec(mean(D_z, dims=1)), cov(D_z), post_mean, post_var)
         mrel_sp[i], srel_sp[i], slogrel_sp[i] = rel_err_no_hmc(post_mean, post_var, D_z)
